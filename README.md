@@ -11,3 +11,4 @@
 - I chose to use [Tanstack](https://tanstack.com/) query, table and form. This lightens the implementation boilerplate and gives a lot of great features out of the box.
 - All components are client side and don't leverage SSR or much Next.js features. It would have been great to apply the [Tanstack SSR features](https://tanstack.com/query/latest/docs/framework/react/guides/ssr) to get better page loading by pre-fetching the data.
 - I picked [Flowbite](https://www.flowbite-react.com/) for the UI since it has great DX out of the box to get some nice UI
+- There is no empty states or loading states. This would be another things to add for improving UX.
