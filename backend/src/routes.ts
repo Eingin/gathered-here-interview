@@ -1,12 +1,15 @@
-import express from 'express';
-import * as path from 'path';
+import express from "express";
+import * as path from "path";
+import { EventsLogRepo } from "./repos/events-repo";
 
 const router = express.Router();
 
-router.get('/log', async (req, res) => {
-  const logFilePath = path.join(__dirname, '../data/events.log');
+const eventsRepo = new EventsLogRepo(
+  path.join(__dirname, "../data/events.log")
+);
 
-  // add your implementation here
+router.get("/log", async (req, res) => {
+  res.json(eventsRepo.getAllEvents());
 });
 
 export default router;
