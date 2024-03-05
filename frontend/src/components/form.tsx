@@ -42,7 +42,16 @@ export default function Form({
           <div className="grid grid-cols-2 gap-4">
             <form.Field
               name="startDate"
+              validators={{
+                onSubmit: z
+                  .date()
+                  .max(form.state.values?.endDate ?? new Date(8.64e15), {
+                    message: "Start date must be before end date",
+                  })
+                  .nullable(),
+              }}
               children={(field) => {
+                const endDateField = form.useField({ name: "endDate" });
                 return (
                   <div className="mb-4">
                     <div className="mb-2 block">
@@ -53,6 +62,10 @@ export default function Form({
                       id={field.name}
                       value={field.state.value?.toISOString().slice(0, 16)}
                       onBlur={() => field.handleBlur()}
+                      onBlur={() => {
+                        field.handleBlur();
+                        endDateField.validate("blur");
+                      }}
                       onChange={(e) =>
                         field.handleChange(
                           e.target.value === ""
@@ -60,6 +73,12 @@ export default function Form({
                             : new Date(e.target.value)
                         )
                       }
+                      color={
+                        field.state.meta.errors.length > 0
+                          ? "failure"
+                          : undefined
+                      }
+                      helperText={<>{field.state.meta.errors.join(", ")}</>}
                     />
                   </div>
                 );
@@ -67,7 +86,16 @@ export default function Form({
             />
             <form.Field
               name="endDate"
+              validators={{
+                onSubmit: z
+                  .date()
+                  .min(form.state.values?.startDate ?? new Date(0), {
+                    message: "End date must be after start date",
+                  })
+                  .nullable(),
+              }}
               children={(field) => {
+                const startDateField = form.useField({ name: "startDate" });
                 return (
                   <div className="mb-4">
                     <div className="mb-2 block">
@@ -78,6 +106,10 @@ export default function Form({
                       id={field.name}
                       value={field.state.value?.toISOString().slice(0, 16)}
                       onBlur={() => field.handleBlur()}
+                      onBlur={() => {
+                        field.handleBlur();
+                        startDateField.validate("blur");
+                      }}
                       onChange={(e) =>
                         field.handleChange(
                           e.target.value === ""
@@ -85,6 +117,12 @@ export default function Form({
                             : new Date(e.target.value)
                         )
                       }
+                      color={
+                        field.state.meta.errors.length > 0
+                          ? "failure"
+                          : undefined
+                      }
+                      helperText={<>{field.state.meta.errors.join(", ")}</>}
                     />
                   </div>
                 );
@@ -94,6 +132,13 @@ export default function Form({
           <div>
             <form.Field
               name="userId"
+              validators={{
+                onChange: z
+                  .number()
+                  .int()
+                  .min(1, "User ID must be greater than 0")
+                  .nullable(),
+              }}
               children={(field) => {
                 return (
                   <div className="mb-4">
@@ -112,6 +157,12 @@ export default function Form({
                             : e.target.valueAsNumber
                         )
                       }
+                      color={
+                        field.state.meta.errors.length > 0
+                          ? "failure"
+                          : undefined
+                      }
+                      helperText={<>{field.state.meta.errors.join(", ")}</>}
                     />
                   </div>
                 );
@@ -126,6 +177,11 @@ export default function Form({
                       <Label htmlFor={field.name} value="Event Type" />
                     </div>
                     <Select
+                      color={
+                        field.state.meta.errors.length > 0
+                          ? "failure"
+                          : undefined
+                      }
                       id={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
@@ -159,6 +215,11 @@ export default function Form({
                       <Label htmlFor={field.name} value="Sort By" />
                     </div>
                     <Select
+                      color={
+                        field.state.meta.errors.length > 0
+                          ? "failure"
+                          : undefined
+                      }
                       id={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
@@ -186,6 +247,11 @@ export default function Form({
                       <Label htmlFor={field.name} value="Sort Order" />
                     </div>
                     <Select
+                      color={
+                        field.state.meta.errors.length > 0
+                          ? "failure"
+                          : undefined
+                      }
                       id={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
