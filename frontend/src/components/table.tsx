@@ -19,12 +19,15 @@ const DataTable = ({ data }: { data: EventLog[] }) => {
     () => [
       columnHelper.accessor("timestamp", {
         cell: (info) => info.getValue(),
+        header: "Timestamp",
       }),
       columnHelper.accessor("userId", {
         cell: (info) => info.getValue(),
+        header: "User ID",
       }),
       columnHelper.accessor("eventType", {
         cell: (info) => info.getValue(),
+        header: "Event Type",
       }),
     ],
     []
