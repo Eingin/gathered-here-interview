@@ -60,8 +60,11 @@ export default function Form({
                     <TextInput
                       type="datetime-local"
                       id={field.name}
-                      value={field.state.value?.toISOString().slice(0, 16)}
-                      onBlur={() => field.handleBlur()}
+                      value={
+                        z.date().nullable().safeParse(field.state.value).success
+                          ? field.state.value?.toISOString().slice(0, 16)
+                          : null
+                      }
                       onBlur={() => {
                         field.handleBlur();
                         endDateField.validate("blur");
@@ -104,8 +107,11 @@ export default function Form({
                     <TextInput
                       type="datetime-local"
                       id={field.name}
-                      value={field.state.value?.toISOString().slice(0, 16)}
-                      onBlur={() => field.handleBlur()}
+                      value={
+                        z.date().nullable().safeParse(field.state.value).success
+                          ? field.state.value?.toISOString().slice(0, 16)
+                          : null
+                      }
                       onBlur={() => {
                         field.handleBlur();
                         startDateField.validate("blur");
