@@ -8,7 +8,27 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 const getLogs = async (form: LogsForm) => {
-  const response = await fetch("http://localhost:3030/events/log");
+  const searchParams = new URLSearchParams();
+  if (form.sortBy && form.sortOrder) {
+    searchParams.set("sortBy", form.sortBy);
+    searchParams.set("sortOrder", form.sortOrder);
+  }
+  if (form.startDate) {
+    searchParams.set("startDate", form.startDate.toISOString());
+  }
+  if (form.endDate) {
+    searchParams.set("endDate", form.endDate.toISOString());
+  }
+  if (form.userId) {
+    searchParams.set("userId", form.userId.toString());
+  }
+  if (form.eventType) {
+    searchParams.set("eventType", form.eventType);
+  }
+
+  const response = await fetch(
+    `http://localhost:3030/events/log?${searchParams.toString()}`
+  );
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
