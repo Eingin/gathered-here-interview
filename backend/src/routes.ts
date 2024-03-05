@@ -1,10 +1,14 @@
 import express from "express";
 import * as path from "path";
+import cors from "cors";
+
 import { EventsLogRepo } from "./repos/events-repo";
 import { eventFilterSchema } from "./daos/event-filter";
 import { eventSortSchema } from "./daos/event-sort";
 
 const router = express.Router();
+
+router.use(cors());
 
 const eventsRepo = new EventsLogRepo(
   path.join(__dirname, "../data/events.log")
